@@ -1,25 +1,19 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
 import EmailItem from "./Email-item";
 
-function EmailList() {
-  const [emails, setEmails] = useState([]);
-  useEffect(() => {
-    async function getData() {
-      const response = await axios.get("https://flipkart-email-mock.now.sh/");
-      console.log(response);
-      setEmails(response.data.list);
-    }
-
-    getData();
-  }, []);
-
+function EmailList({ onSelect, filteredEmails, openEmail, filterOption }) {
+  console.log(filteredEmails);
   return (
-    <div className="flex flex-col gap-6">
-      {emails.length === 0 ? (
+    <div className="flex flex-col gap-6 w-full">
+      {filteredEmails?.length === 0 ? (
         <h2>Emails loading</h2>
       ) : (
-        emails.map((email) => <EmailItem content={email} />)
+        filteredEmails?.map((email) => (
+          <EmailItem
+            content={email}
+            openEmail={openEmail}
+            onSelect={onSelect}
+          />
+        ))
       )}
     </div>
   );
